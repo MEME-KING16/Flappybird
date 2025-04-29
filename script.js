@@ -6,7 +6,7 @@ let g = 0.25;
 let bird_dy = 0;
 let score = 0;
 let game_state = "start";
-let mode = "normal"//"nightmare";
+let mode = "normal";//"nightmare";
 
 // Interval
 let gameInterval = null;
