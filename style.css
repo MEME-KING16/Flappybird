@@ -70,7 +70,7 @@ body {
 }
 
 .fall {
-  animation: rotate 0.5s;
+  animation: rotate 1s;
 }
 
 .started {
