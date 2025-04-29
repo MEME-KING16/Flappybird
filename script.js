@@ -17,11 +17,11 @@ let start_btn = document.getElementById("start-btn");
 
 // Start evnt lstenr
 start_btn.addEventListener("click", ()=>{
-    start()
-    start_btn.style.display = "none"
+    start();
+    start_btn.style.display = "none";
 })
 
 
 function start() {
-    alert("Game started") // Add code
+    alert("Game started"); // Add code
 }
