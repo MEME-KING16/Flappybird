@@ -27,6 +27,11 @@ body {
   /* background-repeat:repeat-x; */
   background-size: cover;
 
+  
+}
+
+
+.nightmareMode {
   filter: invert(100%);
 }
 
@@ -45,15 +50,50 @@ body {
 #bird {
   position: relative;
   top: 200px;
-  left: 50%;
-  filter: invert(100%);
+  width: 100px;
+  left: 50%;  
+  z-index: 1;
+  rotate: 0deg;
 }
 
-#score {
+.jump {
+  transform: rotate(-20deg);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+.fall {
+  animation: rotate 0.5s;
+}
+
+.started {
+  font-family: "FlappyBird", Fallback, sans-serif;;
+  font-size: 80px;
   position: relative;
-  top: 30%;/* move to 25% on game start*/
+  top: 5%;
   left: 50%;
 }
+
+#scoreVal {
+  font-family: "FlappyBird", Fallback, sans-serif;;
+  font-size: 80px;
+  position: absolute;
+  z-index: -1;
+  top: 30%;/* move to 10% on game start*/
+  left: 50%;
+}
+
+@font-face {
+  font-family: 'FlappyBird';
+  src: url('fonts/flappy-bird-font/FlappyBirdRegular-9Pq0.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
 
 /* Filter styles
 .saturate { filter: saturate(3); }
