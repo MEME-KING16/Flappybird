@@ -18,6 +18,7 @@ let start_btn = document.getElementById("start-btn");
 // Start evnt lstenr
 start_btn.addEventListener("click", ()=>{
     start()
+    start_btn.style.display = "none"
 })
 
 
