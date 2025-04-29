@@ -1,9 +1,9 @@
 console.warn("DONT ENTER ANY CODE YOU DONT UNDERSTAND YOU CAN DO THIS COOL THING CALLED XXS AND YOU WILL BE COOKED");
 // Globals
 let g = .25;
-let bird_y = 0;
+let bird_dy = 0;
 let score = 0;
-let game_stat = "start";
+let game_state = "start";
 
 
 // Interval
@@ -21,7 +21,18 @@ start_btn.addEventListener("click", ()=>{
     start_btn.style.display = "none";
 })
 
+function applyGravity() {
+    bird_dy += g;
+    let birdTop = bird_elm.offsetTop + bird_dy
+
+    birdTop = Math.max(birdTop, 0);
+    birdTop = Math.min(birdTop, 682)
+    bird_elm.style.top = birdTop + 'px'
+}
 
 function start() {
-    alert("Game started"); // Add code
+    game_state = "play"
+    gameInterval = setInterval(() => {
+        applyGravity()
+    }, 100);
 }
