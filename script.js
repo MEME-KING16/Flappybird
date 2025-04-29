@@ -6,7 +6,7 @@ let g = 0.25;
 let bird_dy = 0;
 let score = 0;
 let game_state = "start";
-let mode = "nightmare";
+let mode = "normal"//"nightmare";
 
 // Interval
 let gameInterval = null;
@@ -52,8 +52,8 @@ function applyGravity() {
   } else if (bird_dy > 0) {
     bird_elm.classList.add("fall");
   }
-  birdTop = Math.max(birdTop, -20);
-  birdTop = Math.min(birdTop, 682);
+  birdTop = Math.max(birdTop, 0);
+  birdTop = Math.min(birdTop, game_cont.offsetHeight - 210);
   bird_elm.style.top = birdTop + "px";
 }
 
@@ -61,6 +61,7 @@ function start() {
   if (mode === "nightmare") {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
+    g *= 2
   } else {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
