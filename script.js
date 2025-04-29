@@ -7,7 +7,7 @@ let game_state = "start";
 
 
 // Interval
-let gameInterval = null
+let gameInterval = null;
 
 // Elements
 let bird_elm = document.getElementById("bird");
@@ -21,18 +21,27 @@ start_btn.addEventListener("click", ()=>{
     start_btn.style.display = "none";
 })
 
+//Flap evnt lstenr
+document.addEventListener("keydown", (e)=>{
+    if (e.code === "Space") {
+        if (game_state !== "play") {
+            start()
+        }
+    }
+});
+
 function applyGravity() {
     bird_dy += g;
-    let birdTop = bird_elm.offsetTop + bird_dy
+    let birdTop = bird_elm.offsetTop + bird_dy;
 
     birdTop = Math.max(birdTop, 0);
-    birdTop = Math.min(birdTop, 682)
-    bird_elm.style.top = birdTop + 'px'
+    birdTop = Math.min(birdTop, 682);
+    bird_elm.style.top = birdTop + 'px';
 }
 
 function start() {
-    game_state = "play"
+    game_state = "play";
     gameInterval = setInterval(() => {
-        applyGravity()
+        applyGravity();
     }, 100);
 }
