@@ -1,0 +1,67 @@
+body {
+  background-color: rgb(117, 180, 214);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#start-btn {
+  position: relative;
+  top: 30vh;
+  left: 50vw;
+  background-color: rgb(97, 160, 194);
+  border: none;
+}
+
+#start-btn:hover {
+  background-color: rgb(142, 196, 224);
+  transition: 300ms;
+}
+
+#game-container {
+  height: 100vh;
+  width: 100%;
+  /* border: 1px solid firebrick; */
+  background: url("assets/bkg.png") repeat-x bottom center;
+  /* background-repeat:repeat-x; */
+  background-size: cover;
+
+  filter: invert(100%);
+}
+
+#title {
+  position: absolute;
+  top: 5%;
+  left: 10%;
+}
+
+.pacifico-regular {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#bird {
+  position: relative;
+  top: 200px;
+  left: 50%;
+  filter: invert(100%);
+}
+
+#score {
+  position: relative;
+  top: 30%;/* move to 25% on game start*/
+  left: 50%;
+}
+
+/* Filter styles
+.saturate { filter: saturate(3); }
+.grayscale { filter: grayscale(100%); }
+.contrast { filter: contrast(160%); }
+.brightness { filter: brightness(0.25); }
+.blur { filter: blur(3px); }
+.invert { filter: invert(100%); }
+.sepia { filter: sepia(100%); }
+.huerotate { filter: hue-rotate(180deg); }
+.rss.opacity { filter: opacity(50%); } */
