@@ -25,7 +25,7 @@ start_btn.addEventListener("click", () => {
   start_btn.style.display = "none";
 });
 
-//Flap evnt lstenr
+// Flap evnt lstenr
 document.addEventListener("keydown", (e) => {
     e.preventDefault()
   if (e.code === "Space") {
@@ -39,14 +39,17 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-document.addEventListener("click", (e) => {
-    e.preventDefault()
-      if (game_state !== "play") {
-        start();
-      }
-      bird_dy = -7;
-  });
+// Flap evnt lstenr
+// document.addEventListener("click", (e) => {
+//     e.preventDefault()
+//       if (game_state !== "play") {
+//         start();
+//       }
+//       bird_dy = -7;
+//   });
 
+
+// Gravity
 function applyGravity() {
   bird_dy += g;
   let birdTop = bird_elm.offsetTop + bird_dy;
@@ -74,7 +77,7 @@ function createPipe() {
   top_pipe.style.left = "100%";
   game_cont.appendChild(top_pipe);
 
-  //Bottem pipe
+  // Bottem pipe
   let bottem_pipe = document.createElement("div");
   bottem_pipe.classList.add("pipe");
   bottem_pipe.style.height = game_cont.offsetHeight - pipe_gap - pipe_position + "px";
@@ -84,6 +87,22 @@ function createPipe() {
   pipes.push(top_pipe,bottem_pipe);
 }
 
+// Move pipes
+function movePipes() {
+  for (const pipe of pipes) {
+    pipe.style.left = pipe.offsetLeft - 3 + "px";
+
+    // Remove off screen pipes
+    if(pipe.offsetLeft < - pipe.offsetWidth) {
+      pipe.remove()
+    }
+  }
+
+  // Remove old pipes from the array
+  pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0)
+}
+
+// Start function
 function start() {
   if (mode === "nightmare") {
     game_cont.classList.add("nightmareMode");
