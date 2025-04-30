@@ -35,6 +35,10 @@ body {
   filter: invert(100%);
 }
 
+.nightmareMode > div#bird {
+  rotate: -180deg;
+}
+
 #title {
   position: absolute;
   top: 5%;

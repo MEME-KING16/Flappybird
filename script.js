@@ -7,6 +7,8 @@ let bird_dy = 0;
 let score = 0;
 let game_state = "start";
 let mode = "normal";//"nightmare";
+let pipes = [];
+let pipe_gap = 250;
 
 // Interval
 let gameInterval = null;
@@ -33,7 +35,7 @@ document.addEventListener("keydown", (e) => {
     if (mode == "normal")
     bird_dy = -7;
     else
-    bird_dy = 7
+    bird_dy = 7;
   }
 });
 
@@ -50,9 +52,9 @@ function applyGravity() {
   let birdTop = bird_elm.offsetTop + bird_dy;
   bird_elm.classList.remove("jump");
   bird_elm.classList.remove("fall");
-  if (bird_dy < 0) {
+  if ((bird_dy < 0 && mode == "normal") || (bird_dy > 0 && mode == "nightmare")) {
     bird_elm.classList.add("jump");
-  } else if (bird_dy > 0) {
+  } else if ((bird_dy > 0 && mode == "normal") || (bird_dy < 0 && mode == "nightmare")) {
     bird_elm.classList.add("fall");
   }
   birdTop = Math.max(birdTop, 0);
@@ -60,11 +62,33 @@ function applyGravity() {
   bird_elm.style.top = birdTop + "px";
 }
 
+
+function createPipe() {
+  let pipe_position = Math.floor(Math.random() * (game_cont.offsetHeight - pipe_gap - 100)) + 50;
+
+  // Top pipe
+  let top_pipe = document.createElement("div");
+  top_pipe.classList.add("pipe");
+  top_pipe.style.height = pipe_position + "px";
+  top_pipe.style.top = "0px";
+  top_pipe.style.left = "100%";
+  game_cont.appendChild(top_pipe);
+
+  //Bottem pipe
+  let bottem_pipe = document.createElement("div");
+  bottem_pipe.classList.add("pipe");
+  bottem_pipe.style.height = game_cont.offsetHeight - pipe_gap - pipe_position + "px";
+  bottem_pipe.style.bottom = "0px";
+  bottem_pipe.style.left = "100%";
+  game_cont.appendChild(bottem_pipe)
+  pipes.push(top_pipe,bottem_pipe);
+}
+
 function start() {
   if (mode === "nightmare") {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
-    g *= -1.2
+    g *= -1.2;
   } else {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
