@@ -233,16 +233,17 @@ function start() {
   }, 10);
 }
 
-
 function gameMode() {
-  let gamemode = prompt("Pick a game mode\n0. Easy\n1. Normal\n2. Nightmare\n(Put the number)")
+  let gamemode = prompt(
+    "Pick a game mode\n0. Easy\n1. Normal\n2. Nightmare\n(Put the number)"
+  );
   if (gamemode != 0 && gamemode != 1 && gamemode != 2) {
-    alert("Enter a valid mode (the number)")
-    gameMode()
+    alert("Enter a valid mode (the number)");
+    gameMode();
   } else {
-    mode = ["Easy","Normal","Nightmare"][Number(gameMode)]
+    let difficulties = ["Easy", "Normal", "Nightmare"];
+    mode = difficulties[Number(gamemode)];
   }
-
 }
 
-gameMode()
+gameMode();
