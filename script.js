@@ -81,7 +81,7 @@ function applyGravity() {
 
 
 function createPipe() {
-  let pipe_position = Math.floor(getBetterRandomNumber() * (game_cont.offsetHeight - pipe_gap - 100)) + 50;
+  let pipe_position = Math.floor(getBetterRandomNumber() * (game_cont.offsetHeight - pipe_gap - 210)) + 50;
 
   // Top pipe
   let top_pipe = document.createElement("div");
@@ -97,7 +97,7 @@ function createPipe() {
   bottem_pipe.style.height = game_cont.offsetHeight - pipe_gap - pipe_position + "px";
   bottem_pipe.style.bottom = "0px";
   bottem_pipe.style.left = "100%";
-  game_cont.appendChild(bottem_pipe)
+  game_cont.appendChild(bottem_pipe);
   pipes.push(top_pipe,bottem_pipe);
 }
 
@@ -108,12 +108,84 @@ function movePipes() {
 
     // Remove off screen pipes
     if(pipe.offsetLeft < - pipe.offsetWidth) {
-      pipe.remove()
+      pipe.remove();
     }
   }
 
   // Remove old pipes from the array
-  pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0)
+  pipes = pipes.filter((pipe) => pipe.offsetLeft + pipe.offsetWidth > 0);
+}
+
+// Check Collison
+function checkCollision() {
+  let birdRect = bird_elm.getBoundingClientRect();
+  for (const pipe of pipes) {
+    let pipeRect = pipe.getBoundingClientRect();
+
+    if (
+      birdRect.left < pipeRect.left + pipeRect.width &&
+      birdRect.left + birdRect.width > pipeRect.left &&
+      birdRect.top < pipeRect.top + pipeRect.height &&
+      birdRect.top + birdRect.height > pipeRect.top
+    ) {
+      endGame();
+      return;
+    }
+  }
+
+  // Collision with top and bottom
+  if (
+    bird_elm.offsetTop <= 0 ||
+    bird_elm.offsetTop >= game_cont.offsetHeight -210
+  ) {
+    endGame();
+  }
+
+  // Increse score when pipe is passed (paired)
+  pipes.forEach((pipe,index) => {
+    if (index % 2 === 0) {
+      // Only check once for each pair
+      if (
+        pipe.offsetLeft + pipe.offsetWidth < bird_elm.offsetLeft &&
+        !pipe.passed
+      ) {
+        pipe.passed = true;
+        incScore()
+      }
+    }
+  });
+}
+
+function incScore(amt=1) {
+  score += amt
+  document.getElementById("score").innerText = score
+}
+
+function endGame() {
+  clearInterval(gameInterval)
+  gameInterval = null;
+  if (Number(localStorage.getItem("score")) < score) {
+    alert(`New High Score Reached\nOld: ${localStorage.getItem("score")}\nNew: ${score}`);
+    localStorage.setItem("score",String(score));
+  }
+  resetGame();
+}
+
+function resetGame() {
+  bird_elm.style.top = "50%";
+  bird_dy = 0;
+  for (const pipe of pipes) {
+    pipe.remove();
+  } 
+
+  pipes = [];
+  frame = 0;
+  score = 0;
+  game_state = "start";
+  start_btn.style.display = "block";
+  score_display.classList.remove("started");
+  game_cont.classList.remove("nightmareMode");
+  bird_elm.classList.remove("nightmareMode");
 }
 
 // Start function
@@ -144,6 +216,7 @@ function start() {
   gameInterval = setInterval(() => {
     applyGravity();
     movePipes();
+    checkCollision();
     frame++;
     if (frame % frameTime === 0)
       createPipe();
