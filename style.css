@@ -112,3 +112,18 @@ body {
 .thisIsJustToMakeItACSSRepo {
   
 }
+
+.pipe {
+  position: absolute;
+  width: 60px;
+  background-color: green;
+}
+
+.topPipe {
+  top: 0;
+  border-bottom: 5px solid darkgreen;
+}
+
+.bottemPipe {
+border-top: 5px solid darkgreen;
+}

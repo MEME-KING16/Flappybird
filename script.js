@@ -8,7 +8,9 @@ let score = 0;
 let game_state = "start";
 let mode = "normal";//"nightmare";
 let pipes = [];
-let pipe_gap = 250;
+let pipe_gap = 300;
+let frame = 0
+let frameTime = 150
 
 // Interval
 let gameInterval = null;
@@ -49,6 +51,18 @@ document.addEventListener("keydown", (e) => {
 //   });
 
 
+function getBetterRandomNumber() {
+  // Create a typed array to hold the random values
+  const array = new Uint32Array(1);
+  
+  // Fill the array with cryptographically secure random values
+  window.crypto.getRandomValues(array);
+  
+  // Map the values to the specified range
+  const randomValue = array[0] / (0xFFFFFFFF + 1); // Normalize to [0, 1)
+  return randomValue
+}
+
 // Gravity
 function applyGravity() {
   bird_dy += g;
@@ -67,11 +81,11 @@ function applyGravity() {
 
 
 function createPipe() {
-  let pipe_position = Math.floor(Math.random() * (game_cont.offsetHeight - pipe_gap - 100)) + 50;
+  let pipe_position = Math.floor(getBetterRandomNumber() * (game_cont.offsetHeight - pipe_gap - 100)) + 50;
 
   // Top pipe
   let top_pipe = document.createElement("div");
-  top_pipe.classList.add("pipe");
+  top_pipe.classList.add("pipe","topPipe");
   top_pipe.style.height = pipe_position + "px";
   top_pipe.style.top = "0px";
   top_pipe.style.left = "100%";
@@ -79,7 +93,7 @@ function createPipe() {
 
   // Bottem pipe
   let bottem_pipe = document.createElement("div");
-  bottem_pipe.classList.add("pipe");
+  bottem_pipe.classList.add("pipe","bottemPipe");
   bottem_pipe.style.height = game_cont.offsetHeight - pipe_gap - pipe_position + "px";
   bottem_pipe.style.bottom = "0px";
   bottem_pipe.style.left = "100%";
@@ -118,5 +132,9 @@ function start() {
   if (gameInterval !== null) return;
   gameInterval = setInterval(() => {
     applyGravity();
+    movePipes();
+    frame++;
+    if (frame % frameTime === 0)
+      createPipe();
   }, 10);
 }
