@@ -204,13 +204,13 @@ function start() {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
     g = -0.3;
-    frameTime = 100;
+    frameTime = 150;
     pipe_gap = 200;
   } else if (mode === "Normal") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
     g = 0.25;
-    frameTime = 150;
+    frameTime = 200;
     pipe_gap = 300;
   } else if (mode === "Easy") {
     game_cont.classList.remove("nightmareMode");
