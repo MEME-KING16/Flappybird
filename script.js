@@ -64,7 +64,7 @@ function start() {
   if (mode === "nightmare") {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
-    g *= -2
+    g *= -1.2
   } else {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
