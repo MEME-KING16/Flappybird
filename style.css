@@ -77,14 +77,6 @@ body {
   animation: rotate 1s;
 }
 
-.started {
-  font-family: "FlappyBird", Fallback, sans-serif;;
-  font-size: 80px;
-  position: relative;
-  top: 10%;
-  left: 50%;
-}
-
 #score {
   font-family: "FlappyBird", Fallback, sans-serif;;
   font-size: 80px;
@@ -115,8 +107,6 @@ body {
   width: 60px;
   background-color: green;
   z-index: 0;
-  /* background-image: url("/assets/bird.png");
-  background-size: cover; */
 }
 
 .topPipe {
