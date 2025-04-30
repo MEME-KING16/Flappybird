@@ -117,6 +117,7 @@ body {
   position: absolute;
   width: 60px;
   background-color: green;
+  background-image: url("/assets/pipe.png");
 }
 
 .topPipe {

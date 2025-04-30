@@ -34,7 +34,7 @@ document.addEventListener("keydown", (e) => {
     if (game_state !== "play") {
       start();
     }
-    if (mode == "normal")
+    if (mode === "normal" || mode === "easy")
     bird_dy = -7;
     else
     bird_dy = 7;
@@ -69,9 +69,9 @@ function applyGravity() {
   let birdTop = bird_elm.offsetTop + bird_dy;
   bird_elm.classList.remove("jump");
   bird_elm.classList.remove("fall");
-  if ((bird_dy < 0 && mode == "normal") || (bird_dy > 0 && mode == "nightmare")) {
+  if ((bird_dy < 0 && (mode === "normal" || mode === "easy")) || (bird_dy > 0 && mode === "nightmare")) {
     bird_elm.classList.add("jump");
-  } else if ((bird_dy > 0 && mode == "normal") || (bird_dy < 0 && mode == "nightmare")) {
+  } else if ((bird_dy > 0 && (mode === "normal" || mode === "easy")) || (bird_dy < 0 && mode === "nightmare")) {
     bird_elm.classList.add("fall");
   }
   birdTop = Math.max(birdTop, 0);
@@ -121,11 +121,21 @@ function start() {
   if (mode === "nightmare") {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
-    g *= -1.2;
+    g = -0.3;
     frameTime = 100
-  } else {
+    pipe_gap = 200
+  } else if (mode === "normal") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
+    g = 0.25
+    frameTime = 150
+    pipe_gap = 300
+  } else if (mode === "easy") {
+    game_cont.classList.remove("nightmareMode");
+    bird_elm.classList.remove("nightmareMode");
+    g = 0.25
+    frameTime = 300
+    pipe_gap = 400
   }
   game_state = "play";
   start_btn.style.display = "none";
