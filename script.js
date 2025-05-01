@@ -11,6 +11,8 @@ let pipes = [];
 let pipe_gap = 300;
 let frame = 0;
 let frameTime = 150;
+let musicMuted = false;
+let spookey = 7;
 
 // Interval
 let gameInterval = null;
@@ -35,9 +37,24 @@ document.addEventListener("keydown", (e) => {
       start();
     }
     flapSound.play()
-    if (mode === "Normal" || mode === "Easy") bird_dy = -7;
-    else bird_dy = 7;
+    if (mode === "Normal" || mode === "Easy")
+    bird_dy = -7;
+    else if (mode === "Low Gravity")
+    bird_dy = -5
+    else if (mode === "???")
+    bird_dy = -spookey
+    else
+    bird_dy = 7;
   }
+});
+
+document.getElementById("mute").addEventListener("click",()=>{
+  if(musicMuted)
+    bkgSound.pause()
+  else
+    bkgSound.play()
+  document.getElementById("mute").innerHTML = musicMuted ? "Unmute Music" : "Mute Music"
+  musicMuted = !musicMuted
 });
 
 // Flap evnt lstenr
@@ -69,12 +86,12 @@ function applyGravity() {
   bird_elm.classList.remove("jump");
   bird_elm.classList.remove("fall");
   if (
-    (bird_dy < 0 && (mode === "Normal" || mode === "Easy")) ||
+    (bird_dy < 0 && (mode === "Normal" || mode === "Easy" || mode === "Low Gravity" || mode === "???")) ||
     (bird_dy > 0 && mode === "Nightmare")
   ) {
     bird_elm.classList.add("jump");
   } else if (
-    (bird_dy > 0 && (mode === "Normal" || mode === "Easy")) ||
+    (bird_dy > 0 && (mode === "Normal" || mode === "Easy" || mode === "Low Gravity" || mode === "???")) ||
     (bird_dy < 0 && mode === "Nightmare")
   ) {
     bird_elm.classList.add("fall");
@@ -107,6 +124,13 @@ function createPipe() {
   bottem_pipe.style.left = "100%";
   game_cont.appendChild(bottem_pipe);
   pipes.push(top_pipe, bottem_pipe);
+  // ???
+  if (mode === "???") {
+  frameTime = Math.random() * 200
+  g = Math.random()
+  pipe_gap = Math.random()  * 200
+  spookey = Math.random() * 10
+}
 }
 
 // Move pipes
@@ -223,6 +247,18 @@ function start() {
     g = 0.25;
     frameTime = 300;
     pipe_gap = 450;
+  } else if (mode == "Low Gravity") {
+    game_cont.classList.remove("nightmareMode");
+    bird_elm.classList.remove("nightmareMode");
+    g = 0.05
+    frameTime = 150;
+    pipe_gap = 300;
+  } else if (mode == "???") {
+    game_cont.classList.remove("nightmareMode");
+    bird_elm.classList.remove("nightmareMode");
+    g = 0.25
+    frameTime = 150;
+    pipe_gap = 300;
   }
   game_state = "play";
   start_btn.style.display = "none";

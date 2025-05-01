@@ -5,7 +5,7 @@ const img = new Image();
 img.src = "./assets/bkg.png";
 const canvasXSize = document.getElementById("bkg").height;
 const canvasYSize = document.getElementById("bkg").width; 
-const speed = 30; // lower is faster
+const speed = 70; // lower is faster
 const scale =1;
 const y = -4.5; // vertical offset
 
