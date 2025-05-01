@@ -3,10 +3,10 @@ const img = new Image();
 // User Variables - customize these to change the image being scrolled, its
 // direction, and the speed.
 img.src = "./assets/bkg.png";
-const canvasXSize = 800;
-const canvasYSize = 200; 
+const canvasXSize = document.getElementById("bkg").height;
+const canvasYSize = document.getElementById("bkg").width; 
 const speed = 30; // lower is faster
-const scale = 1.05;
+const scale =1;
 const y = -4.5; // vertical offset
 
 // Main program
