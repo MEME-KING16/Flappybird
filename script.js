@@ -22,10 +22,10 @@ let game_cont = document.getElementById("game-container");
 let start_btn = document.getElementById("start-btn");
 
 // Start evnt lstenr
-start_btn.addEventListener("click", () => {
-  start();
-  start_btn.style.display = "none";
-});
+// start_btn.addEventListener("click", () => {
+//   start();
+//   start_btn.style.display = "none";
+// });
 
 // Flap evnt lstenr
 document.addEventListener("keydown", (e) => {
@@ -34,6 +34,7 @@ document.addEventListener("keydown", (e) => {
     if (game_state !== "play") {
       start();
     }
+    flapSound.play()
     if (mode === "Normal" || mode === "Easy") bird_dy = -7;
     else bird_dy = 7;
   }
@@ -41,12 +42,13 @@ document.addEventListener("keydown", (e) => {
 
 // Flap evnt lstenr
 // document.addEventListener("click", (e) => {
-//     e.preventDefault()
-//       if (game_state !== "play") {
-//         start();
-//       }
-//       bird_dy = -7;
-//   });
+//   e.preventDefault();
+//     if (game_state !== "play") {
+//       start();
+//     }
+//     if (mode === "Normal" || mode === "Easy") bird_dy = -7;
+//     else bird_dy = 7;
+// });
 
 function getBetterRandomNumber() {
   // Create a typed array to hold the random values
@@ -156,6 +158,7 @@ function checkCollision() {
         !pipe.passed
       ) {
         pipe.passed = true;
+        scoreSound.play()
         incScore();
       }
     }
@@ -170,12 +173,12 @@ function incScore(amt = 1) {
 function endGame() {
   clearInterval(gameInterval);
   gameInterval = null;
+  hitSound.play()
   if (Number(localStorage.getItem("score" + mode)) < score) {
-    alert(
-      `New High Score For ${mode} Reached\nOld: ${localStorage.getItem(
-        "score" + mode
-      )}\nNew: ${score}`
-    );
+    new Toast({
+      message: `New High Score For ${mode} Reached\nOld: ${localStorage.getItem("score" + mode)}\nNew: ${score}`,
+      type: 'default'
+    });
     localStorage.setItem("score" + mode, String(score));
   }
   resetGame();

@@ -9,11 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="Toast.css">
+    <script src="Toast.js"></script>
+    <script src="sound.js"></script>
+    <script src="background.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body>
     <div id="game-container">
       <!-- <h1 id="title">Flappy Bird Game</h1> -->
+       <canvas id="bkg"></canvas>
       <div id="bird"><img src="assets/bird.png" alt="bird" height="100" width="130"/></div>
       <div id="score">0</div>
       <select id="difficulty">
