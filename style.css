@@ -117,3 +117,8 @@ body {
 .bottemPipe {
 border-top: 5px solid darkgreen;
 }
+
+#difficulty {
+  left: 50%;
+  position: absolute;
+}

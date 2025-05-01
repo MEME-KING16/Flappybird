@@ -193,6 +193,7 @@ function resetGame() {
   score = 0;
   game_state = "start";
   start_btn.style.display = "block";
+  document.getElementById("difficulty").style.display = "block";
   score_display.style.top = "30%";
   game_cont.classList.remove("nightmareMode");
   bird_elm.classList.remove("nightmareMode");
@@ -200,27 +201,29 @@ function resetGame() {
 
 // Start function
 function start() {
+  gameMode();
   if (mode === "Nightmare") {
     game_cont.classList.add("nightmareMode");
     bird_elm.classList.add("nightmareMode");
     g = -0.3;
     frameTime = 150;
-    pipe_gap = 200;
+    pipe_gap = 250;
   } else if (mode === "Normal") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
     g = 0.25;
     frameTime = 200;
-    pipe_gap = 300;
+    pipe_gap = 350;
   } else if (mode === "Easy") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
     g = 0.25;
     frameTime = 300;
-    pipe_gap = 400;
+    pipe_gap = 450;
   }
   game_state = "play";
   start_btn.style.display = "none";
+  document.getElementById("difficulty").style.display = "none";
   score_display.style.top = "5%";
   document.getElementById("score").innerText = 0;
   if (gameInterval !== null) return;
@@ -234,16 +237,10 @@ function start() {
 }
 
 function gameMode() {
-  let gamemode = prompt(
-    "Pick a game mode\n0. Easy\n1. Normal\n2. Nightmare\n(Put the number)"
-  );
-  if (gamemode != 0 && gamemode != 1 && gamemode != 2) {
-    alert("Enter a valid mode (the number)");
-    gameMode();
+ let gamemode = document.getElementById("difficulty").value;
+  if (gamemode == undefined) {
+    alert("Enter a Gamemode");
   } else {
-    let difficulties = ["Easy", "Normal", "Nightmare"];
-    mode = difficulties[Number(gamemode)];
+    mode = gamemode;
   }
 }
-
-gameMode();
