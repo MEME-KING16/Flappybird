@@ -1,0 +1,20 @@
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%; /* 2x width to allow for scrolling */
+  height: 100%;
+  background: url('assets/bkg.png') repeat-x center bottom;
+  background-size: initial;
+  animation: scrollBackground 10s linear infinite;
+  z-index: -1;
+}
+
+@keyframes scrollBackground {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

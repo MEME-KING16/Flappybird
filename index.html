@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css"/>
+
+    <!-- Perrie - add this new style -->
+    <link rel="stylesheet" href="background.css"/>
+
     <link rel="stylesheet" href="Toast.css">
     <script src="Toast.js"></script>
     <script src="sound.js"></script>
@@ -18,7 +22,11 @@
   <body>
     <div id="game-container">
       <!-- <h1 id="title">Flappy Bird Game</h1> -->
-       <canvas id="bkg"></canvas>
+       
+       <!-- Perrie: instead of canvas, we proceed with a simple approach -->
+       <div class="background"></div>
+       <!-- <canvas id="bkg"></canvas> -->
+
       <div id="bird"><img src="assets/bird.png" alt="bird" height="100" width="130"/></div>
       <div id="score">0</div>
       <button id="mute">Mute Music</button>
