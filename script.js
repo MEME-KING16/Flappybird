@@ -13,6 +13,10 @@ let frame = 0;
 let frameTime = 150;
 let musicMuted = false;
 let spookey = 7;
+let skins = JSON.parse(localStorage.getItem("flappySkins")) || {"default":new Skin("Default","assets/bird.png",false, true),"chicken_jocky":new Skin("Chicken Jocky","assets/bird.png",false, false),"test":new Skin("test","assets/bird.png",true, false,true)}
+// Load coins
+let coins = parseInt(localStorage.getItem("flappyCoins")) || 0;
+document.getElementById("coinAmount").innerText = coins
 
 // Interval
 let gameInterval = null;
@@ -22,12 +26,20 @@ let bird_elm = document.getElementById("bird");
 let score_display = document.getElementById("score");
 let game_cont = document.getElementById("game-container");
 let start_btn = document.getElementById("start-btn");
+let birdIMG = document.getElementById("birdIMG");
 
 // Start evnt lstenr
 // start_btn.addEventListener("click", () => {
 //   start();
 //   start_btn.style.display = "none";
 // });
+
+function elements(show) {
+  start_btn.style.display = show ? "block" : "none";
+  document.getElementById("difficulty").style.display = show ? "block" : "none";
+  document.getElementById("mute").style.display = show ? "block" : "none";
+  document.getElementById("shop-btn").style.display = show ? "block" : "none";
+}
 
 // Flap evnt lstenr
 document.addEventListener("keydown", (e) => {
@@ -53,8 +65,21 @@ document.getElementById("mute").addEventListener("click",()=>{
     bkgSound.pause()
   else
     bkgSound.play()
-  document.getElementById("mute").innerHTML = musicMuted ? "Unmute Music" : "Mute Music"
+  document.getElementById("mute").innerHTML = musicMuted ? "Mute Music" : "Unmute Music"
   musicMuted = !musicMuted
+});
+
+document.getElementById("shop-btn").addEventListener("click",()=>{
+  elements(false);
+  document.getElementById("score").style.display = "none";
+  document.getElementById("bird").style.display = "none";
+  for (let index = 0; index < Object.keys(skins).length; index++) {
+    console.log(skins[Object.keys(skins)[index]].canBuy)
+    if (skins[Object.keys(skins)[index]].canBuy) {
+      document.getElementById("shop").innerText = document.getElementById("shop").innerText + skins[Object.keys(skins)[index]].name
+    }
+    
+  }
 });
 
 // Flap evnt lstenr
@@ -66,6 +91,11 @@ document.getElementById("mute").addEventListener("click",()=>{
 //     if (mode === "Normal" || mode === "Easy") bird_dy = -7;
 //     else bird_dy = 7;
 // });
+
+function updateBirdAvatar(score) {
+  if (score >= 10 && score < 20)
+    return
+} 
 
 function getBetterRandomNumber() {
   // Create a typed array to hold the random values
@@ -184,6 +214,9 @@ function checkCollision() {
         pipe.passed = true;
         scoreSound.play()
         incScore();
+        coins++
+        document.getElementById("coinAmount").innerText = coins
+        localStorage.setItem("flappyCoins",coins)
       }
     }
   });
@@ -219,8 +252,7 @@ function resetGame() {
   frame = 0;
   score = 0;
   game_state = "start";
-  start_btn.style.display = "block";
-  document.getElementById("difficulty").style.display = "block";
+  elements(true)
   score_display.style.top = "30%";
   game_cont.classList.remove("nightmareMode");
   bird_elm.classList.remove("nightmareMode");
@@ -261,8 +293,7 @@ function start() {
     pipe_gap = 300;
   }
   game_state = "play";
-  start_btn.style.display = "none";
-  document.getElementById("difficulty").style.display = "none";
+  elements(false)
   score_display.style.top = "5%";
   document.getElementById("score").innerText = 0;
   if (gameInterval !== null) return;

@@ -9,11 +9,28 @@ body {
 #start-btn {
   position: relative;
   top: 30vh;
-  left: 50vw;
+  left: 50%;
   background-color: rgb(97, 160, 194);
   border: none;
 }
 
+#mute {
+  position: absolute;
+  top: 70vh;
+  left: 50%;
+}
+
+#shop-btn {
+  position: absolute;
+  top: 65vh;
+  left: 50%;
+}
+
+#shop {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+}
 #start-btn:hover {
   background-color: rgb(142, 196, 224);
   transition: 300ms;
@@ -41,6 +58,15 @@ body {
   filter: invert(100%);
 }
 
+#coins {
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  font-family: "FlappyBird", Fallback, sans-serif;
+  font-size: 50px;
+  z-index: 1;
+}
+
 .nightmareMode > div#bird {
   rotate: -180deg;
 }
@@ -54,7 +80,7 @@ body {
 .pacifico-regular {
   font-family: "Pacifico", cursive;
   font-weight: 400;
-  font-style: normal;
+  font-style: bold;
 }
 
 #bird {

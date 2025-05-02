@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="COOL GAME IG"/>
     <title>Flappy Bird Game</title>
+    <link rel="icon" href="assets/bird.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
@@ -16,21 +17,21 @@
     <link rel="stylesheet" href="Toast.css">
     <script src="Toast.js"></script>
     <script src="sound.js"></script>
-    <script src="background.js" defer></script>
+    <script src="skin.js"></script>
     <script src="script.js" defer></script>
   </head>
   <body>
     <div id="game-container">
+      <div id="coins"><img src="assets/coin.png" height="32" width="32">&thinsp;<span id="coinAmount">0</span></div>
       <!-- <h1 id="title">Flappy Bird Game</h1> -->
        
        <!-- Perrie: instead of canvas, we proceed with a simple approach -->
        <div class="background"></div>
        <!-- <canvas id="bkg"></canvas> -->
-
-      <div id="bird"><img src="assets/bird.png" alt="bird" height="100" width="130"/></div>
+      <div id="shop"></div>
+      <div id="bird"><img id="birdIMG" src="assets/bird.png" alt="bird" height="100" width="130"/></div>
       <div id="score">0</div>
-      <button id="mute">Mute Music</button>
-      <select id="difficulty">
+      <select id="difficulty" class="pacifico-regular">
         <option value="Easy">Easy</option>
         <option value="Normal">Normal</option>
         <option value="Nightmare">Nightmare</option>
@@ -38,6 +39,8 @@
         <option value="???">???</option>
       </select>
       <button id="start-btn" class="pacifico-regular">Start Game</button>
+      <button id="shop-btn" class="pacifico-regular">Shop</button>
+      <button id="mute" class="pacifico-regular">Mute Music</button>
     </div>
   </body>
 </html>

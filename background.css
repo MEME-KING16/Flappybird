@@ -6,7 +6,7 @@
   height: 100%;
   background: url('assets/bkg.png') repeat-x center bottom;
   background-size: initial;
-  animation: scrollBackground 10s linear infinite;
+  animation: scrollBackground 7s linear infinite;
   z-index: -1;
 }
 
