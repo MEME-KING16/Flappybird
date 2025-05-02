@@ -13,10 +13,14 @@ let frame = 0;
 let frameTime = 150;
 let musicMuted = false;
 let spookey = 7;
-let skins = JSON.parse(localStorage.getItem("flappySkins")) || {"default":new Skin("Default","assets/bird.png",false, true),"chicken_jocky":new Skin("Chicken Jocky","assets/bird.png",false, false),"test":new Skin("test","assets/bird.png",true, false,true)}
+let skins = JSON.parse(localStorage.getItem("flappySkins")) || {
+  default: new Skin("Default", "assets/bird.png", true, true, false,-1,"default"),
+  chicken_jocky: new Skin("Chicken Jocky", "assets/bird.png", false, false, false,-1,"chicken_jocky"),
+  test: new Skin("Test", "assets/bird.png", true, false, true,10,"test"),
+};
 // Load coins
 let coins = parseInt(localStorage.getItem("flappyCoins")) || 0;
-document.getElementById("coinAmount").innerText = coins
+document.getElementById("coinAmount").innerText = coins;
 
 // Interval
 let gameInterval = null;
@@ -48,39 +52,79 @@ document.addEventListener("keydown", (e) => {
     if (game_state !== "play") {
       start();
     }
-    flapSound.play()
-    if (mode === "Normal" || mode === "Easy")
-    bird_dy = -7;
-    else if (mode === "Low Gravity")
-    bird_dy = -5
-    else if (mode === "???")
-    bird_dy = -spookey
-    else
-    bird_dy = 7;
+    flapSound.play();
+    if (mode === "Normal" || mode === "Easy") bird_dy = -7;
+    else if (mode === "Low Gravity") bird_dy = -5;
+    else if (mode === "???") bird_dy = -spookey;
+    else bird_dy = 7;
   }
 });
 
-document.getElementById("mute").addEventListener("click",()=>{
-  if(musicMuted)
-    bkgSound.pause()
-  else
-    bkgSound.play()
-  document.getElementById("mute").innerHTML = musicMuted ? "Mute Music" : "Unmute Music"
-  musicMuted = !musicMuted
+document.getElementById("mute").addEventListener("click", () => {
+  if (musicMuted) bkgSound.pause();
+  else bkgSound.play();
+  document.getElementById("mute").innerHTML = musicMuted
+    ? "Mute Music"
+    : "Unmute Music";
+  musicMuted = !musicMuted;
 });
 
-document.getElementById("shop-btn").addEventListener("click",()=>{
+document.getElementById("shop-btn").addEventListener("click", () => {
   elements(false);
   document.getElementById("score").style.display = "none";
   document.getElementById("bird").style.display = "none";
   for (let index = 0; index < Object.keys(skins).length; index++) {
-    console.log(skins[Object.keys(skins)[index]].canBuy)
     if (skins[Object.keys(skins)[index]].canBuy) {
-      document.getElementById("shop").innerText = document.getElementById("shop").innerText + skins[Object.keys(skins)[index]].name
+      document.getElementById("shop").innerHTML =
+        document.getElementById("shop").innerHTML +
+        `<div>
+          <h1 class="itemName">${skins[Object.keys(skins)[index]].name}</h1>
+          <span class="itemIco"><img class="${skins[Object.keys(skins)[index]].demon ? "demon" : ""}" src="${skins[Object.keys(skins)[index]].icon}" style="width: 64px;"></span><br>
+          <span class="itemPrice"><img src="assets/coin.png" height="32" width="32"><span class="cost">${skins[Object.keys(skins)[index]].owned ? "Owned" : skins[Object.keys(skins)[index]].price}</span></span><br>
+          ${skins[Object.keys(skins)[index]].owned ? `<button onclick="equip('${skins[Object.keys(skins)[index]].id}')">Equip</button>` : `<button onclick="buy('${skins[Object.keys(skins)[index]].id}')">Buy ${skins[Object.keys(skins)[index]].name}</button>`}
+        </div>`;
     }
-    
   }
+
+  document.getElementById("shop").innerHTML =
+  document.getElementById("shop").innerHTML + `<br><br><button id="close">Close</button>`;
+  document.getElementById("close").addEventListener("click",close);
 });
+
+function close() {
+  setTimeout(() => {
+    
+  elements(true);
+  document.getElementById("score").style.display = "block";
+  document.getElementById("bird").style.display = "block";
+  document.getElementById("shop").innerHTML = ""
+}, 100);
+}
+
+function buy(skin) {
+  if (skins[skin].price <= coins) {
+    coins = coins - skins[skin].price
+    skins[skin].owned = true
+    document.getElementById("coinAmount").innerText = coins;
+    localStorage.setItem("flappyCoins", coins);
+    localStorage.setItem("flappySkins", JSON.stringify(skins));
+    new Toast({
+      message: `Successfully bought ${skins[skin].name}`,
+      type: "success",
+    });
+  } else {
+    new Toast({
+      message: `Not Enough Coins`,
+      type: "danger",
+    });
+  }
+}
+
+function equip(skin) {
+  bird_elm.className = skins[skin].demon ? "demon" : "";
+  bird_elm.src = skins[skin].icon;
+  close()
+}
 
 // Flap evnt lstenr
 // document.addEventListener("click", (e) => {
@@ -93,9 +137,8 @@ document.getElementById("shop-btn").addEventListener("click",()=>{
 // });
 
 function updateBirdAvatar(score) {
-  if (score >= 10 && score < 20)
-    return
-} 
+  if (score >= 10 && score < 20) return;
+}
 
 function getBetterRandomNumber() {
   // Create a typed array to hold the random values
@@ -116,12 +159,20 @@ function applyGravity() {
   bird_elm.classList.remove("jump");
   bird_elm.classList.remove("fall");
   if (
-    (bird_dy < 0 && (mode === "Normal" || mode === "Easy" || mode === "Low Gravity" || mode === "???")) ||
+    (bird_dy < 0 &&
+      (mode === "Normal" ||
+        mode === "Easy" ||
+        mode === "Low Gravity" ||
+        mode === "???")) ||
     (bird_dy > 0 && mode === "Nightmare")
   ) {
     bird_elm.classList.add("jump");
   } else if (
-    (bird_dy > 0 && (mode === "Normal" || mode === "Easy" || mode === "Low Gravity" || mode === "???")) ||
+    (bird_dy > 0 &&
+      (mode === "Normal" ||
+        mode === "Easy" ||
+        mode === "Low Gravity" ||
+        mode === "???")) ||
     (bird_dy < 0 && mode === "Nightmare")
   ) {
     bird_elm.classList.add("fall");
@@ -156,11 +207,11 @@ function createPipe() {
   pipes.push(top_pipe, bottem_pipe);
   // ???
   if (mode === "???") {
-  frameTime = Math.random() * 200
-  g = Math.random()
-  pipe_gap = Math.random()  * 200
-  spookey = Math.random() * 10
-}
+    //frameTime = Math.random() * 200;
+    g = Math.random();
+    pipe_gap = Math.random() * 200 + 100;
+    spookey = Math.random() * 10;
+  }
 }
 
 // Move pipes
@@ -212,11 +263,11 @@ function checkCollision() {
         !pipe.passed
       ) {
         pipe.passed = true;
-        scoreSound.play()
+        scoreSound.play();
         incScore();
-        coins++
-        document.getElementById("coinAmount").innerText = coins
-        localStorage.setItem("flappyCoins",coins)
+        coins++;
+        document.getElementById("coinAmount").innerText = coins;
+        localStorage.setItem("flappyCoins", coins);
       }
     }
   });
@@ -230,11 +281,13 @@ function incScore(amt = 1) {
 function endGame() {
   clearInterval(gameInterval);
   gameInterval = null;
-  hitSound.play()
+  hitSound.play();
   if (Number(localStorage.getItem("score" + mode)) < score) {
     new Toast({
-      message: `New High Score For ${mode} Reached\nOld: ${localStorage.getItem("score" + mode)}\nNew: ${score}`,
-      type: 'default'
+      message: `New High Score For ${mode} Reached\nOld: ${localStorage.getItem(
+        "score" + mode
+      )}\nNew: ${score}`,
+      type: "default",
     });
     localStorage.setItem("score" + mode, String(score));
   }
@@ -252,7 +305,7 @@ function resetGame() {
   frame = 0;
   score = 0;
   game_state = "start";
-  elements(true)
+  elements(true);
   score_display.style.top = "30%";
   game_cont.classList.remove("nightmareMode");
   bird_elm.classList.remove("nightmareMode");
@@ -282,18 +335,18 @@ function start() {
   } else if (mode == "Low Gravity") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
-    g = 0.05
+    g = 0.05;
     frameTime = 150;
     pipe_gap = 300;
   } else if (mode == "???") {
     game_cont.classList.remove("nightmareMode");
     bird_elm.classList.remove("nightmareMode");
-    g = 0.25
-    frameTime = 150;
+    g = 0.25;
+    frameTime = 200;
     pipe_gap = 300;
   }
   game_state = "play";
-  elements(false)
+  elements(false);
   score_display.style.top = "5%";
   document.getElementById("score").innerText = 0;
   if (gameInterval !== null) return;
@@ -307,7 +360,7 @@ function start() {
 }
 
 function gameMode() {
- let gamemode = document.getElementById("difficulty").value;
+  let gamemode = document.getElementById("difficulty").value;
   if (gamemode == undefined) {
     alert("Enter a Gamemode");
   } else {
